@@ -1,0 +1,75 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.0": {
+      "PuppetMasterTools/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.0",
+        "compile": {
+          "bin/placeholder/PuppetMasterTools.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PuppetMasterTools.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PuppetMasterTools/1.0.0": {
+      "type": "project",
+      "path": "../PuppetMasterTools/PuppetMasterTools.csproj",
+      "msbuildProject": "../PuppetMasterTools/PuppetMasterTools.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.0": [
+      "PuppetMasterTools >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\jake_\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\jake_\\Documents\\RE\\final_project\\SampleMod\\SampleMod.csproj",
+      "projectName": "SampleMod",
+      "projectPath": "C:\\Users\\jake_\\Documents\\RE\\final_project\\SampleMod\\SampleMod.csproj",
+      "packagesPath": "C:\\Users\\jake_\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jake_\\Documents\\RE\\final_project\\SampleMod\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\jake_\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net400"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net40": {
+          "targetAlias": "net400",
+          "projectReferences": {
+            "C:\\Users\\jake_\\Documents\\RE\\final_project\\PuppetMasterTools\\PuppetMasterTools.csproj": {
+              "projectPath": "C:\\Users\\jake_\\Documents\\RE\\final_project\\PuppetMasterTools\\PuppetMasterTools.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net40": {
+        "targetAlias": "net400",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

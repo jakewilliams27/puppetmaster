@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "SampleMod/1.0.0": {
+        "dependencies": {
+          "PuppetMasterTools": "1.0.0"
+        },
+        "runtime": {
+          "SampleMod.dll": {}
+        }
+      },
+      "PuppetMasterTools/1.0.0": {
+        "runtime": {
+          "PuppetMasterTools.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SampleMod/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PuppetMasterTools/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

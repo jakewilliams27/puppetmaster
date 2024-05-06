@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "modloader": {
+      "commandName": "Project"
+    },
+    "modloader_launch": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "commandLineArgs": ".\\start_towerfall.ps1",
+      "workingDirectory": "C:\\Users\\jake_\\Downloads\\Shed.2.0.0\\Shed"
+    }
+  }
+}

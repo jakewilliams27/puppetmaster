@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net400</TargetFramework>
+	<Nullable>disable</Nullable>
+	<PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PuppetMasterTools\PuppetMasterTools.csproj" />
+  </ItemGroup>
+
+</Project>

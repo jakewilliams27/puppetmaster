@@ -1,0 +1,22 @@
+TowerFall Error Log
+==========================================
+>>>>>
+
+Ver 1.3.3.1
+4/30/2024 2:27:39 PM
+Debug Flags: 0000 - 0
+Microsoft.Xna.Framework.Content.ContentLoadException: Error loading "Misc\MonocleDefault". File not found. ---> System.IO.FileNotFoundException: Error loading "Content\Misc\MonocleDefault.xnb". File not found.
+   at Microsoft.Xna.Framework.TitleContainer.OpenStream(String name)
+   at Microsoft.Xna.Framework.Content.ContentManager.OpenStream(String assetName)
+   --- End of inner exception stack trace ---
+   at Microsoft.Xna.Framework.Content.ContentManager.OpenStream(String assetName)
+   at Microsoft.Xna.Framework.Content.ContentManager.ReadAsset[T](String assetName, Action`1 recordDisposableObject)
+   at Microsoft.Xna.Framework.Content.ContentManager.Load[T](String assetName)
+   at Monocle.Draw.Init(GraphicsDevice graphicsDevice)
+   at Monocle.Engine.LoadContent()
+   at TowerFall.TFGame.LoadContent()
+   at Microsoft.Xna.Framework.Game.Initialize()
+   at Monocle.Engine.Initialize()
+   at TowerFall.TFGame.Initialize()
+   at Microsoft.Xna.Framework.Game.RunGame(Boolean useBlockingRun)
+   at TowerFall.TFGame.Main(String[] args)
