@@ -81,11 +81,24 @@ this.cheats.AddCheat("lrLRuudlRA", delegate
 }
 base.Add<CheatListener>(this.cheats);
 ```
-Snippet 2.
-```java
-static int subtract(int a, int b) {
-    return a - b;
-}
+Trace command on my command helper. And the following being how easy it is to use the helper for people using the toolkit.
+```csharp
+        public static void Trace(string message)
+        {
+            // Intermediary to Monocle.Commands.Trace()
+
+            Type MonocleEngineType = GetTowerFallAssembly().GetType("Monocle.Engine");
+            object EngineInstance = Utilities.RunReflectiveCommand(MonocleEngineType, "get_Instance", new Type[] { }, null, new object[] { });
+
+
+            Type MonocleCommandsType = GetTowerFallAssembly().GetType("Monocle.Commands");
+            object Commands = Utilities.RunReflectiveCommand(MonocleEngineType, "get_Commands", new Type[] { }, EngineInstance, new object[] { });
+
+            Utilities.RunReflectiveCommand(MonocleCommandsType, "Trace", new Type[] { typeof(String) }, Commands, new object[] { message });
+        }
+```
+```csharp
+CommandTools.Trace("Here is some command output!");
 ```
 
 ## References
