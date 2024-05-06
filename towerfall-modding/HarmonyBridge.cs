@@ -21,10 +21,6 @@ namespace PuppetMaster
 
             HarmonyType = getHarmony().GetType("HarmonyLib.Harmony");
 
-
-            /*object[] constructorParameters = new object[1];
-            constructorParameters[0] = "com.jakesnake.modloader";
-            */
             this.instance = Activator.CreateInstance(HarmonyType, new object[] { harmony_id });
 
         }
