@@ -14,7 +14,6 @@ namespace PuppetMaster
             var methodInfo = type.GetMethod(method_name, args);
             if (methodInfo == null)
             {
-                // never throw generic Exception - replace this with some other exception type
                 throw new Exception($"No such method {method_name} exists. ");
             }
 
