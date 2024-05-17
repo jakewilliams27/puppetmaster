@@ -15,3 +15,6 @@ PuppetMaster is a modloader for TowerFall Ascension. It currently has very limit
 2. Run PuppetMasterInjector.exe and select your towerfall folder
 3. Click inject and wait for the modloader to launch
 4. To ensure the modloader has successfully injected, open the command window and type 'modloader_info', if the command works, install is successful!
+
+## Known Issues
+- Currently, does not work with TowerFall from Steam. I think the DRM breaks the injector. Also interferes with launching and grabbing the PID, but I have a working fallback for that.

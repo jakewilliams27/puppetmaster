@@ -4,6 +4,9 @@
         <TargetFramework>net400</TargetFramework>
         <Nullable>disable</Nullable>
 		<PlatformTarget>x86</PlatformTarget>
+		<FileVersion></FileVersion>
+		<AssemblyVersion></AssemblyVersion>
+		<Version>$(VersionPrefix)</Version>
     </PropertyGroup>
 
     <ItemGroup>
