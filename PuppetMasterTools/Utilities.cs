@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PuppetMaster
 {
-    internal class Utilities
+    public class Utilities
     {
         public static object RunReflectiveCommand(Type type, String method_name, Type[] args, object instance, object[] parameters)
         {

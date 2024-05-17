@@ -15,22 +15,25 @@ namespace PuppetMaster
 
         public static Assembly getHarmony()
         {
-            return Utilities.GetAssemblyByName("0Harmony");
+            return UtilitiesInternal.GetAssemblyByName("0Harmony");
         }
-        public HarmonyBridge(string harmony_id) {
-
+        public HarmonyBridge(string harmony_id)
+        {
             HarmonyType = getHarmony().GetType("HarmonyLib.Harmony");
 
+            /*object[] constructorParameters = new object[1];
+            constructorParameters[0] = "com.jakesnake.modloader";
+            */
             this.instance = Activator.CreateInstance(HarmonyType, new object[] { harmony_id });
 
         }
-        
+
         public void Patch(object method_to_patch, object prefix, object postfix)
         {
-            Utilities.RunReflectiveCommand(HarmonyType, "Patch", new Type[] { typeof(MethodBase), HarmonyMethod.GetType(), HarmonyMethod.GetType(), HarmonyMethod.GetType(), HarmonyMethod.GetType() }, instance, new object[] { method_to_patch, prefix, postfix, null, null });
+            UtilitiesInternal.RunReflectiveCommand(HarmonyType, "Patch", new Type[] { typeof(MethodBase), HarmonyMethod.GetType(), HarmonyMethod.GetType(), HarmonyMethod.GetType(), HarmonyMethod.GetType() }, instance, new object[] { method_to_patch, prefix, postfix, null, null });
         }
 
-        
+
     }
 
     internal class AccessTools
@@ -41,7 +44,12 @@ namespace PuppetMaster
         }
         public static object Method(Type type, string method_name, Type[] parameter_types, Type[] generic_types)
         {
-            return Utilities.RunReflectiveCommand(getAccessTools(), "Method", new Type[] { typeof(Type), typeof(string), typeof(Type[]), typeof(Type[]) }, null, new object[] { type, method_name, parameter_types, generic_types});
+            return UtilitiesInternal.RunReflectiveCommand(getAccessTools(), "Method", new Type[] { typeof(Type), typeof(string), typeof(Type[]), typeof(Type[]) }, null, new object[] { type, method_name, parameter_types, generic_types });
+        }
+        public static List<MethodInfo> GetDeclaredMethods(Type type)
+        {
+            return (List<MethodInfo>) UtilitiesInternal.RunReflectiveCommand(getAccessTools(), "GetDeclaredMethods", new Type[] { typeof(Type) }, null, new object[] { type });
+
         }
     }
 
@@ -53,7 +61,7 @@ namespace PuppetMaster
         }
         public static object GetMethodInfo(Expression<Action> action)
         {
-            return Utilities.RunReflectiveCommand(getSymbolExtensions(), "GetMethodInfo", 
+            return UtilitiesInternal.RunReflectiveCommand(getSymbolExtensions(), "GetMethodInfo",
                 new Type[] { typeof(Expression<Action>) }, null, new object[] { action });
         }
     }

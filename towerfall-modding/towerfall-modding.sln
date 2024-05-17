@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "modloader", "modloader.cspr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleMod", "..\SampleMod\SampleMod.csproj", "{7FC1C44C-4BA8-4854-8121-65BB3B252A3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppetMasterTools", "..\PuppetMasterTools\PuppetMasterTools.csproj", "{781E85BC-F0DD-4B54-A5F0-98934E728554}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppetMasterTools", "..\PuppetMasterTools\PuppetMasterTools.csproj", "{781E85BC-F0DD-4B54-A5F0-98934E728554}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppetMasterInjector", "..\PuppetMasterInjector\PuppetMasterInjector\PuppetMasterInjector.csproj", "{73306937-1417-4E9E-8F7A-5A1B30CEAA8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,14 @@ Global
 		{781E85BC-F0DD-4B54-A5F0-98934E728554}.Release|Any CPU.Build.0 = Release|Any CPU
 		{781E85BC-F0DD-4B54-A5F0-98934E728554}.Release|x86.ActiveCfg = Release|Any CPU
 		{781E85BC-F0DD-4B54-A5F0-98934E728554}.Release|x86.Build.0 = Release|Any CPU
+		{73306937-1417-4E9E-8F7A-5A1B30CEAA8F}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{73306937-1417-4E9E-8F7A-5A1B30CEAA8F}.Debug|Any CPU.Build.0 = Debug|x86
+		{73306937-1417-4E9E-8F7A-5A1B30CEAA8F}.Debug|x86.ActiveCfg = Debug|x86
+		{73306937-1417-4E9E-8F7A-5A1B30CEAA8F}.Debug|x86.Build.0 = Debug|x86
+		{73306937-1417-4E9E-8F7A-5A1B30CEAA8F}.Release|Any CPU.ActiveCfg = Release|x86
+		{73306937-1417-4E9E-8F7A-5A1B30CEAA8F}.Release|Any CPU.Build.0 = Release|x86
+		{73306937-1417-4E9E-8F7A-5A1B30CEAA8F}.Release|x86.ActiveCfg = Release|x86
+		{73306937-1417-4E9E-8F7A-5A1B30CEAA8F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

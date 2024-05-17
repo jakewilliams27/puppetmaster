@@ -75,11 +75,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jake_\\Documents\\RE\\final_project\\towerfall-modding\\modloader.csproj",
+      "projectUniqueName": "C:\\Users\\jake_\\Documents\\Projects\\final_project\\towerfall-modding\\modloader.csproj",
       "projectName": "modloader",
-      "projectPath": "C:\\Users\\jake_\\Documents\\RE\\final_project\\towerfall-modding\\modloader.csproj",
+      "projectPath": "C:\\Users\\jake_\\Documents\\Projects\\final_project\\towerfall-modding\\modloader.csproj",
       "packagesPath": "C:\\Users\\jake_\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jake_\\Documents\\RE\\final_project\\towerfall-modding\\obj\\",
+      "outputPath": "C:\\Users\\jake_\\Documents\\Projects\\final_project\\towerfall-modding\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\jake_\\AppData\\Roaming\\NuGet\\NuGet.Config",

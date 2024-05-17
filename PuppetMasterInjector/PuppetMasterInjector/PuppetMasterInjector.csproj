@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>    
+	<Platform>x86</Platform>
+	<TargetFramework>net6.0-windows</TargetFramework>
+    <Platforms>x86</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HoLLy.ManagedInjector" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\PuppetMasterTools\PuppetMasterTools.csproj" />
+    <ProjectReference Include="..\..\towerfall-modding\modloader.csproj" />
+  </ItemGroup>
+</Project>

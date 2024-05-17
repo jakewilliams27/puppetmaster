@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jake_\\Documents\\RE\\final_project\\SampleMod\\SampleMod.csproj": {}
+    "C:\\Users\\jake_\\Documents\\Projects\\final_project\\SampleMod\\SampleMod.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jake_\\Documents\\RE\\final_project\\PuppetMasterTools\\PuppetMasterTools.csproj": {
+    "C:\\Users\\jake_\\Documents\\Projects\\final_project\\PuppetMasterTools\\PuppetMasterTools.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jake_\\Documents\\RE\\final_project\\PuppetMasterTools\\PuppetMasterTools.csproj",
+        "projectUniqueName": "C:\\Users\\jake_\\Documents\\Projects\\final_project\\PuppetMasterTools\\PuppetMasterTools.csproj",
         "projectName": "PuppetMasterTools",
-        "projectPath": "C:\\Users\\jake_\\Documents\\RE\\final_project\\PuppetMasterTools\\PuppetMasterTools.csproj",
+        "projectPath": "C:\\Users\\jake_\\Documents\\Projects\\final_project\\PuppetMasterTools\\PuppetMasterTools.csproj",
         "packagesPath": "C:\\Users\\jake_\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jake_\\Documents\\RE\\final_project\\PuppetMasterTools\\obj\\",
+        "outputPath": "C:\\Users\\jake_\\Documents\\Projects\\final_project\\PuppetMasterTools\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jake_\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -43,14 +43,14 @@
         }
       }
     },
-    "C:\\Users\\jake_\\Documents\\RE\\final_project\\SampleMod\\SampleMod.csproj": {
+    "C:\\Users\\jake_\\Documents\\Projects\\final_project\\SampleMod\\SampleMod.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jake_\\Documents\\RE\\final_project\\SampleMod\\SampleMod.csproj",
+        "projectUniqueName": "C:\\Users\\jake_\\Documents\\Projects\\final_project\\SampleMod\\SampleMod.csproj",
         "projectName": "SampleMod",
-        "projectPath": "C:\\Users\\jake_\\Documents\\RE\\final_project\\SampleMod\\SampleMod.csproj",
+        "projectPath": "C:\\Users\\jake_\\Documents\\Projects\\final_project\\SampleMod\\SampleMod.csproj",
         "packagesPath": "C:\\Users\\jake_\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jake_\\Documents\\RE\\final_project\\SampleMod\\obj\\",
+        "outputPath": "C:\\Users\\jake_\\Documents\\Projects\\final_project\\SampleMod\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jake_\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -67,8 +67,8 @@
           "net40": {
             "targetAlias": "net400",
             "projectReferences": {
-              "C:\\Users\\jake_\\Documents\\RE\\final_project\\PuppetMasterTools\\PuppetMasterTools.csproj": {
-                "projectPath": "C:\\Users\\jake_\\Documents\\RE\\final_project\\PuppetMasterTools\\PuppetMasterTools.csproj"
+              "C:\\Users\\jake_\\Documents\\Projects\\final_project\\PuppetMasterTools\\PuppetMasterTools.csproj": {
+                "projectPath": "C:\\Users\\jake_\\Documents\\Projects\\final_project\\PuppetMasterTools\\PuppetMasterTools.csproj"
               }
             }
           }

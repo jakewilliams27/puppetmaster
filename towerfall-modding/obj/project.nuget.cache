@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "L0MySWdH63USJpPEI/h//OxBAblVcrS0TcZp4sfFHkZrdwkz9pn7WR5lJmtK7bo9O7ia+MQaZnKpI50Z3qmEFQ==",
+  "dgSpecHash": "H2NtH/Jr5qyZS+3WO2SlCYrLGo/4RILjPsot4lMs8XpUnTAgwngUFQlqu/JgDBNxZsot/YoKwWbY4ev2Xy/iNA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jake_\\Documents\\RE\\final_project\\towerfall-modding\\modloader.csproj",
+  "projectFilePath": "C:\\Users\\jake_\\Documents\\Projects\\final_project\\towerfall-modding\\modloader.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jake_\\.nuget\\packages\\lib.harmony\\2.3.3\\lib.harmony.2.3.3.nupkg.sha512"
   ],

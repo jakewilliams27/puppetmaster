@@ -1,17 +1,29 @@
+using modloader;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Dynamic;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.Serialization.Json;
+using System.Text;
+using System.Threading;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace PuppetMaster
 {
     public class Modloader
     {
+
+        private static string cwd = Directory.GetCurrentDirectory();
+
+        private static HarmonyBridge b = null;
 
         public static object patchedAtlas = null;
         public static object patchedMenuAtlas = null;
@@ -20,66 +32,44 @@ namespace PuppetMaster
 
         public static bool PATCHED = false;
         public static List<Type> allMods = new List<Type>();
+        private static List<Mod> mods = new List<Mod>();
 
         public static Assembly GetTowerFallAssembly()
         {
-            return Utilities.GetAssemblyByName("TowerFall");
+            return UtilitiesInternal.GetAssemblyByName("TowerFall");
         }
 
-        public static void Inject()
+        public static int Inject(string modloaderpath)
         {
-            Assembly.LoadFile("C:\\\\Users\\\\jake_\\\\Documents\\\\RE\\\\towerfall-modding\\\\bin\\\\Release\\\\net400\\\\0Harmony.dll");
-            
 
+            var client = new NamedPipeClientStream("tfmods");
+            client.Connect();
+            StreamWriter writer = new StreamWriter(client);
+
+            writer.WriteLine("Process stream started...");
+            writer.WriteLine("Trying to load harmony");
+            Assembly.LoadFile($"{Directory.GetCurrentDirectory()}\\0Harmony.dll");
+            
             // Find the Harmony Dependency in Loaded Assemblies
-            Utilities.LogToFile("---------------------");
-            
-            Utilities.LogToFile("Injected successfully!");
 
-            HarmonyBridge b = new HarmonyBridge("com.jakesnake.modloader");
+            b = new HarmonyBridge("com.jakesnake.modloader");
 
             Type MonocleEngineType = GetTowerFallAssembly().GetType("Monocle.Engine");
 
 
-            Type GameTime = Utilities.GetTypeFromAssembly("Microsoft.Xna.Framework.Game", "Microsoft.Xna.Framework.GameTime");
+            Type GameTime = UtilitiesInternal.GetTypeFromAssembly("Microsoft.Xna.Framework.Game", "Microsoft.Xna.Framework.GameTime");
+
+            // Load mods
+
+            writer.WriteLine("Loading mods...");
+
+            LoadMods();
+
+            writer.WriteLine("Loaded mods!");
 
 
             // Runtime Texture Patching
-
-            Type MonocleAtlasType = GetTowerFallAssembly().GetType("Monocle.Atlas");
-            patchedAtlas = Activator.CreateInstance(MonocleAtlasType, new object[] { "Atlas/atlas.xml", "Atlas/atlas_patched.png", true });
-
-            patchedMenuAtlas = Activator.CreateInstance(MonocleAtlasType, new object[] { "Atlas/menuAtlas.xml", "Atlas/menuAtlas_patched.png", true });
-
-            patchedBGAtlas = Activator.CreateInstance(MonocleAtlasType, new object[] { "Atlas/bgAtlas.xml", "Atlas/bgAtlas_patched.png", true });
-
-            patchedBossAtlas = Activator.CreateInstance(MonocleAtlasType, new object[] { "Atlas/bossAtlas.xml", "Atlas/bossAtlas_patched.png", true });
-
-            object get_AtlasOriginal = AccessTools.Method(GetTowerFallAssembly().GetType("TowerFall.TFGame"), "get_Atlas", new Type[] { }, null);
-
-            MethodInfo get_AtlasPrefix = typeof(Modloader).GetMethod("get_Atlas", BindingFlags.NonPublic | BindingFlags.Static);           
-
-            b.Patch(get_AtlasOriginal, HarmonyMethod.New(get_AtlasPrefix), null);
-
-            object get_MenuAtlasOriginal = AccessTools.Method(GetTowerFallAssembly().GetType("TowerFall.TFGame"), "get_MenuAtlas", new Type[] { }, null);
-
-            MethodInfo get_MenuAtlasPrefix = typeof(Modloader).GetMethod("get_MenuAtlas", BindingFlags.NonPublic | BindingFlags.Static);
-
-            b.Patch(get_MenuAtlasOriginal, HarmonyMethod.New(get_MenuAtlasPrefix), null);
-
-            object get_BGAtlasOriginal = AccessTools.Method(GetTowerFallAssembly().GetType("TowerFall.TFGame"), "get_BGAtlas", new Type[] { }, null);
-
-            MethodInfo get_BGAtlasPrefix = typeof(Modloader).GetMethod("get_BGAtlas", BindingFlags.NonPublic | BindingFlags.Static);
-
-            b.Patch(get_BGAtlasOriginal, HarmonyMethod.New(get_BGAtlasPrefix), null);
-
-            object get_BossAtlasOriginal = AccessTools.Method(GetTowerFallAssembly().GetType("TowerFall.TFGame"), "get_BossAtlas", new Type[] { }, null);
-
-            MethodInfo get_BossAtlasPrefix = typeof(Modloader).GetMethod("get_BossAtlas", BindingFlags.NonPublic | BindingFlags.Static);
-
-            b.Patch(get_BossAtlasOriginal, HarmonyMethod.New(get_BossAtlasPrefix), null);
-
-
+            patch_textures();
             // Patch Update function. We can guarantee that will run.
 
             object mOriginal = AccessTools.Method(MonocleEngineType, "Update", new Type[] { GameTime }, null);
@@ -87,17 +77,42 @@ namespace PuppetMaster
             object mPrefix = SymbolExtensions.GetMethodInfo(() => ApplyPatches());
             object mPostfix = SymbolExtensions.GetMethodInfo(() => AfterApplyPatches());
 
-            Utilities.LogToFile("Got method infos...");
-
             b.Patch(mOriginal, HarmonyMethod.New(mPrefix), HarmonyMethod.New(mPostfix));
+            
+            writer.Flush();
+            writer.Close();
 
+            return 0;
 
-            Utilities.LogToFile("Loading mods...");
+        }
 
-            LoadMods();
+        private static void patch_textures()
+        {
 
-            Utilities.LogToFile("Loaded mods!");
-
+            if (patchedAtlas != null)
+            {
+                object get_AtlasOriginal = AccessTools.Method(GetTowerFallAssembly().GetType("TowerFall.TFGame"), "get_Atlas", new Type[] { }, null);
+                MethodInfo get_AtlasPrefix = typeof(Modloader).GetMethod("get_Atlas", BindingFlags.NonPublic | BindingFlags.Static);
+                b.Patch(get_AtlasOriginal, HarmonyMethod.New(get_AtlasPrefix), null);
+            }
+            if (patchedMenuAtlas != null)
+            {
+                object get_MenuAtlasOriginal = AccessTools.Method(GetTowerFallAssembly().GetType("TowerFall.TFGame"), "get_MenuAtlas", new Type[] { }, null);
+                MethodInfo get_MenuAtlasPrefix = typeof(Modloader).GetMethod("get_MenuAtlas", BindingFlags.NonPublic | BindingFlags.Static);
+                b.Patch(get_MenuAtlasOriginal, HarmonyMethod.New(get_MenuAtlasPrefix), null);
+            }
+            if (patchedBGAtlas != null)
+            {
+                object get_BGAtlasOriginal = AccessTools.Method(GetTowerFallAssembly().GetType("TowerFall.TFGame"), "get_BGAtlas", new Type[] { }, null);
+                MethodInfo get_BGAtlasPrefix = typeof(Modloader).GetMethod("get_BGAtlas", BindingFlags.NonPublic | BindingFlags.Static);
+                b.Patch(get_BGAtlasOriginal, HarmonyMethod.New(get_BGAtlasPrefix), null);
+            }
+            if (patchedAtlas != null)
+            {
+                object get_BossAtlasOriginal = AccessTools.Method(GetTowerFallAssembly().GetType("TowerFall.TFGame"), "get_BossAtlas", new Type[] { }, null);
+                MethodInfo get_BossAtlasPrefix = typeof(Modloader).GetMethod("get_BossAtlas", BindingFlags.NonPublic | BindingFlags.Static);
+                b.Patch(get_BossAtlasOriginal, HarmonyMethod.New(get_BossAtlasPrefix), null);
+            }
 
         }
 
@@ -136,30 +151,72 @@ namespace PuppetMaster
         {
             try
             {
-                string path = Path.GetDirectoryName("C:\\GOG Games\\Towerfall - Ascension\\mods\\");
+                string path = Path.GetDirectoryName($"{cwd}\\mods\\");
+                Type MonocleAtlasType = GetTowerFallAssembly().GetType("Monocle.Atlas");
 
-                foreach (string dll in Directory.EnumerateFiles(path, "*.dll"))
+
+                foreach (string modDir in Directory.GetDirectories(path))
                 {
-                    Assembly assembly = Assembly.LoadFrom(dll);
-                    Utilities.LogToFile($"Loaded assembly {assembly.FullName}");
-                    
-                    foreach (Type type in assembly.GetTypes())
+                    if (File.Exists(modDir + "/mod.json")) {
+                        try
+                        {
+                            var jsonReader = JsonReaderWriterFactory.CreateJsonReader(File.ReadAllBytes(modDir + "/mod.json"), XmlDictionaryReaderQuotas.Max);
+
+                            var root = XElement.Load(jsonReader);
+
+                            string name = root.XPathSelectElement("//name").Value;
+
+                            Assembly assembly = Assembly.LoadFrom(modDir + "/mod.dll");
+
+                            Mod mod = new Mod(name, assembly);
+
+                            Directory.CreateDirectory($"{cwd}//Content//Runtime");
+
+                            var dirName = new DirectoryInfo(modDir).Name;
+
+                            if (root.XPathSelectElement("//atlas_image") != null)
+                            {
+                                patchedAtlas = Activator.CreateInstance(MonocleAtlasType, new object[] { "Atlas/atlas.xml", $"../mods/{dirName}/{root.XPathSelectElement("//atlas_image").Value}", true });
+                            }
+                            if (root.XPathSelectElement("//menuatlas_image") != null)
+                            {
+                                patchedMenuAtlas = Activator.CreateInstance(MonocleAtlasType, new object[] { "Atlas/menuAtlas.xml", $"../mods/{dirName}/{root.XPathSelectElement("//menuatlas_image").Value}", true });
+                            }
+                            if (root.XPathSelectElement("//bgatlas_image") != null)
+                            {
+                                patchedBGAtlas = Activator.CreateInstance(MonocleAtlasType, new object[] { "Atlas/bgAtlas.xml", $"../mods/{dirName}/{root.XPathSelectElement("//bgatlas_image").Value}", true });
+                            }
+                            if (root.XPathSelectElement("//bossatlas_image") != null)
+                            {
+                                patchedBossAtlas = Activator.CreateInstance(MonocleAtlasType, new object[] { "Atlas/bossAtlas.xml", $"../mods/{dirName}/{root.XPathSelectElement("//bossatlas_image").Value}", true });
+                            }
+
+                            mods.Add(mod);
+                        } catch (Exception ex)
+                        {
+                            UtilitiesInternal.LogToFile(ex.ToString()); 
+                        }
+                    } else
                     {
-                        if (type.GetMethod("Entry") != null)
-                            allMods.Add(type);
-                    };
+                        UtilitiesInternal.LogToFile(path + "/mod.json");
+                    }
                 }
             }
             catch (ReflectionTypeLoadException e)
             {
                 foreach (Exception ex in e.LoaderExceptions)
                 {
-                    Utilities.LogToFile(ex.ToString());
+                    UtilitiesInternal.LogToFile(ex.ToString());
                 }
             }
         }
 
         // Currently unused but will allow some post-update patching once I build it out more
+        
+        static void DoAtlasPatches(Type __instance)
+        {
+            UtilitiesInternal.LogToFile(__instance.ToString());
+        }
         static void AfterApplyPatches()
         {
             return;
@@ -172,12 +229,9 @@ namespace PuppetMaster
 
             // Load each mod by calling Entry() function inside the mod
 
-            foreach (Type mod in allMods.ToArray())
+            foreach (Mod mod in mods.ToArray())
             {
-                if (mod.FullName != "PuppetMasterTools")
-                {
-                    Utilities.RunReflectiveCommand(mod, "Entry", new Type[] { }, null, new Type[] { });
-                }
+                mod.callEntry();
             }
 
             try
@@ -185,25 +239,39 @@ namespace PuppetMaster
 
                 Type MonocleEngineType = GetTowerFallAssembly().GetType("Monocle.Engine");
                 Type TowerFallEngineType = GetTowerFallAssembly().GetType("TowerFall.TFGame");
-                object EngineInstance = Utilities.RunReflectiveCommand(MonocleEngineType, "get_Instance", new Type[] { }, null, new object[] { });
+                object EngineInstance = UtilitiesInternal.RunReflectiveCommand(MonocleEngineType, "get_Instance", new Type[] { }, null, new object[] { });
 
                 // Create a new command that indicates the modloader is loaded
 
-                CommandTools.RegisterCommand("modloader_info", delegate (string[] args)
+                CommandToolsInternal.RegisterCommand("modloader_info", delegate (string[] args)
                 {
-                    CommandTools.Trace("V1.0 of the PuppetMaster Modloader");
-                    CommandTools.Trace("Comes with modding tools and new commands");
-                    CommandTools.Trace($"Loaded {allMods.Count} mods");
+                    CommandToolsInternal.Trace("V1.0 of the PuppetMaster Modloader");
+                    CommandToolsInternal.Trace("Comes with modding tools and new commands");
+                    CommandToolsInternal.Trace($"Loaded {mods.Count} mods");
+                });
+                CommandToolsInternal.RegisterCommand("modloader_info", delegate (string[] args)
+                {
+                    CommandToolsInternal.Trace("V1.0 of the PuppetMaster Modloader");
+                    CommandToolsInternal.Trace("Comes with modding tools and new commands");
+                    CommandToolsInternal.Trace($"Loaded {mods.Count} mods");
+                });
+
+                CommandToolsInternal.RegisterCommand("mods", delegate (string[] args)
+                {
+                    foreach (Mod mod in mods)
+                    {
+                        CommandToolsInternal.Trace($"{mod.GetName()}");
+                    }
                 });
 
             }
             catch (Exception ex)
             {
-                Utilities.LogToFile(ex.ToString());
+                UtilitiesInternal.LogToFile(ex.ToString());
             }
             
             PATCHED = true;
-            Utilities.LogToFile("Patched commands");
+            UtilitiesInternal.LogToFile("Patched commands");
         }
     }
 
